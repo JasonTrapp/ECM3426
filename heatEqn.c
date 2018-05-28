@@ -10,6 +10,7 @@
 #define DY 0.0002
 #define T 0.0000009 //stability condition
 #define ALPHA 0.01
+#define TIMESTEPS 10000
 
 int main(){
 	double tempArray[SIZE][SIZE];
@@ -29,7 +30,19 @@ int main(){
 		}
 	}
 
-	
+	//Compute time steps
+	for(int i = 0; i < TIMESTEPS; i++){
+		for(int j = 1; j < SIZE-1; j++){
+			for(int k = 1; k < SIZE-1 ; k++){
+				tempArray[j][k] = prevArray[j][k] + T * ALPHA * (prevArray[j+1][k] + prevArray[j-1][k] - 4*prevArray[j][k] + prevArray[j][k+1] + prevArray[j][k-1])/0.00000004;
+			}
+		}
+		for(int j = 1; j < SIZE-1; j++){
+			for(int k = 1; k < SIZE-1 ; k++){
+				prevArray [j][k] = tempArray[j][k];
+			}
+		}
+	}
 
 	double xPos = 0.0;
 	double yPos = 0.0;
