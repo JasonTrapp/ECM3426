@@ -32,11 +32,13 @@ int main(){
 
 	//Compute time steps
 	for(int i = 0; i < TIMESTEPS; i++){
+		#pragma omp parallel default(none) shared(tempArray, prevArray) private(j, k)
 		for(int j = 1; j < SIZE-1; j++){
 			for(int k = 1; k < SIZE-1 ; k++){
 				tempArray[j][k] = prevArray[j][k] + T * ALPHA * (prevArray[j+1][k] + prevArray[j-1][k] - 4*prevArray[j][k] + prevArray[j][k+1] + prevArray[j][k-1])/0.00000004;
 			}
 		}
+		#pragma omp parallel default(none) shared(tempArray, prevArray) private(j, k)
 		for(int j = 1; j < SIZE-1; j++){
 			for(int k = 1; k < SIZE-1 ; k++){
 				prevArray [j][k] = tempArray[j][k];
